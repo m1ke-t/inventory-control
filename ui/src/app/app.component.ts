@@ -1,10 +1,43 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {Title} from "@angular/platform-browser";
+import { map, filter, mergeMap } from 'rxjs/operators';
+
+
+
+import {AuthenticationService} from "./auth/authentication.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.less']
+  styleUrls: ['./app.component.css']
+
 })
-export class AppComponent {
-  title = 'ui';
+export class AppComponent implements OnInit{
+
+
+  constructor(
+      private router: Router,
+      private activatedRoute: ActivatedRoute,
+      private titleService: Title,
+      private authService: AuthenticationService
+  ) {}
+
+  ngOnInit() {
+    this.router.events.pipe(
+        filter((event) => event instanceof NavigationEnd),
+        map(() => this.activatedRoute),
+        map((route) => {
+          while (route.firstChild) route = route.firstChild;
+          return route;
+        }),
+        filter((route) => route.outlet === 'primary'),
+        mergeMap((route) => route.data))
+        .subscribe((event) => { console.log(event); this.titleService.setTitle(event['title']) } );
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(["login"]);
+  }
 }

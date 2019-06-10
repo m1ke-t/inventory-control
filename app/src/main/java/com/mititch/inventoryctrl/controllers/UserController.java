@@ -18,16 +18,14 @@ public class UserController {
     private UserService userService;
 
     @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
-    @GetMapping(value = "/users")
+    @GetMapping(value = "/auth")
     public UserDetailsView getDetailsByCredentials(@RequestHeader(value = "Authorization") String auth) {
-        UserDetailsView userDetails = userService.loadDetailsByCredentials(auth);
-        return userDetails;
+        return userService.loadDetailsByCredentials(auth);
     }
 
-    @GetMapping(value = "/allusers")
+    @GetMapping(value = "/users/list")
     public List<User> getAll(@RequestHeader(value = "Authorization") String auth) {
-        List<User> users = userService.listAll();
-        return users;
+        return userService.listAll();
     }
 
 }

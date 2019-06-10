@@ -53,7 +53,6 @@ public class UserServiceImpl implements UserService {
         for (Roles userRole : userRoles) {
             setAuths.add(new SimpleGrantedAuthority("ROLE_" + userRole.name()));
         }
-
         return new ArrayList<>(setAuths);
     }
 
@@ -79,6 +78,7 @@ public class UserServiceImpl implements UserService {
         UserDetails userDetails = loadUserByCredentials(auth);
         UserDetailsView details = mapperFacade.map(userDetails, UserDetailsView.class);
         details.setAuthorities(new ArrayList<>(userDetails.getAuthorities()));
+
         return details;
     }
 

@@ -10,8 +10,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-
-
 public class UserDetailsView {
     private String username;
     private boolean isEnabled;

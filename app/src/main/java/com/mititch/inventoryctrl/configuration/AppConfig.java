@@ -48,6 +48,7 @@ public class AppConfig {
         return objectMapper;
     }
 
+
 //    @Bean
 //    MT940TransactionSearchRequest getSearchRequest() {
 //        return new MT940TransactionSearchRequest();
